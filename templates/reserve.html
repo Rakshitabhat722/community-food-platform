@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReFood - Reserve</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form-box">
+        <a href="{{ url_for('home') }}" style="color: #666; text-decoration: none; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; font-weight: 600;">
+            <i class="fas fa-arrow-left"></i> Cancel
+        </a>
+        
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2 style="color: var(--dark); font-weight: 800; font-size: 2.2rem; margin-bottom: 10px;">Reserve Pickup</h2>
+            <p style="color: var(--gray); font-size: 1.1rem;">Only for NGOs and Registered Organizations</p>
+        </div>
+
+        <div style="background: #fff7ed; padding: 25px; border-left: 5px solid var(--orange); margin-bottom: 30px; border-radius: 8px;">
+            <h3 style="margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--dark);">{{ food.title }}</h3>
+            <p style="margin: 10px 0 0; color: #666; font-size: 1rem; line-height: 1.5;">
+                <strong>Shared by:</strong> {{ food.donor_name }} <br>
+                <strong>Location:</strong> {{ food.location }}
+            </p>
+        </div>
+
+        <form method="POST">
+            <div class="form-group">
+                <label>Organization / NGO Name *</label>
+                <input type="text" name="ngo_name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Contact Person Name *</label>
+                <input type="text" name="contact_person" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Official Email *</label>
+                <input type="email" name="ngo_email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number *</label>
+                <input type="tel" name="ngo_phone" class="form-control" required>
+            </div>
+            
+            <div class="form-group" style="display: flex; gap: 15px; align-items: flex-start; margin-top: 25px; background: #f9fafb; padding: 15px; border-radius: 8px;">
+                <input type="checkbox" id="confirm" required style="margin-top: 5px; width: 20px; height: 20px;">
+                <label for="confirm" style="font-weight: normal; font-size: 0.95rem; margin: 0; line-height: 1.4;">
+                    I confirm that I represent a valid organization/NGO and this food will be distributed for social work, not personal consumption.
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1.2rem; margin-top: 20px; background-color: var(--dark); border: none;">
+                Confirm Reservation
+            </button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReFood - Donate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="form-box">
+        <a href="{{ url_for('home') }}" style="color: #666; text-decoration: none; display: flex; align-items: center; gap: 5px; margin-bottom: 20px;">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        <div class="section-title" style="text-align: left;">
+            <div style="width: 50px; height: 50px; background: #ecfdf5; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; font-size: 1.2rem;">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h2>Donate Food</h2>
+            <p>Share your surplus food with those in need.</p>
+        </div>
+
+        <form method="POST">
+            <h4 style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Your Information</h4>
+            <div class="form-group">
+                <label>Name / Organization *</label>
+                <input type="text" name="donor_name" class="form-control" required placeholder="e.g. John's Kitchen">
+            </div>
+            <div style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex:1;">
+                    <label>Phone *</label>
+                    <input type="text" name="phone" class="form-control" required>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>Email *</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+            </div>
+
+            <h4 style="margin-bottom: 15px; margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Food Details</h4>
+            <div class="form-group">
+                <label>Food Title *</label>
+                <input type="text" name="title" class="form-control" required placeholder="e.g. Veg Curry & Rice">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" class="form-control" rows="3" required></textarea>
+            </div>
+            
+            <div style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex:1;">
+                    <label>Food Type</label>
+                    <select name="food_type" class="form-control">
+                        <option>Cooked Meal</option>
+                        <option>Raw Ingredients</option>
+                        <option>Packaged Food</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>Servings</label>
+                    <input type="number" name="servings" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>How long will the food stay fresh? (Expiry) *</label>
+                <input type="text" name="expiry" class="form-control" placeholder="e.g. 2 hours, 1 day, or Tomorrow Morning" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tags</label>
+                <input type="text" name="tags" class="form-control" placeholder="non-veg, spicy, homemade">
+            </div>
+
+            <div class="form-group">
+                <label>Pickup Location *</label>
+                <input type="text" name="location" class="form-control" required placeholder="Enter full address">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">Submit Food Donation</button>
+        </form>
+    </div>
+</body>
+</html>

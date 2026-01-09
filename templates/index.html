@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReFood - Share Food, Spread Hope</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <i class="fas fa-leaf"></i> ReFood
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">How it Works</a></li>
+            <li><a href="#map-section">Find Food</a></li>
+            <li><a href="#listings">Listings</a></li>
+            <li><a href="#impact">Impact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="{{ url_for('login') }}" class="signin">Sign In</a>
+            <a href="{{ url_for('donate') }}" class="btn btn-primary">Share Food</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge"><i class="fas fa-bolt"></i> Fighting food waste, one meal at a time</div>
+            <h1>Share Food, <span class="text-green">Spread</span> <span class="text-orange">Hope</span></h1>
+            <p>Connect with your community to share surplus food. Help reduce waste and ensure no one goes hungry. Every meal matters.</p>
+            
+            <div class="hero-btns">
+                <a href="#map-section" class="btn btn-primary"><i class="fas fa-map-marker-alt"></i> Find Food Near Me</a>
+                <a href="{{ url_for('donate') }}" class="btn btn-outline"><i class="fas fa-utensils"></i> Donate Food</a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat">
+                    <i class="fas fa-utensils"></i>
+                    <strong>50K+</strong>
+                    <span>Meals Shared</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-users"></i>
+                    <strong>12K+</strong>
+                    <span>Active Users</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-city"></i>
+                    <strong>200+</strong>
+                    <span>Cities</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="section-white">
+        <div class="container">
+            <div class="center-header">
+                <span class="tag">Simple Process</span>
+                <h2>How ReFood Works</h2>
+                <p>Join thousands of food heroes making a difference in their communities.</p>
+            </div>
+            <div class="process-grid">
+                <div class="p-card">
+                    <span class="step-num">1</span>
+                    <div class="icon-box"><i class="fas fa-clipboard-list"></i></div>
+                    <h3>List Your Food</h3>
+                    <p>Restaurants or individuals list surplus food with photos and details.</p>
+                </div>
+                <div class="p-card">
+                    <span class="step-num">2</span>
+                    <div class="icon-box"><i class="fas fa-map-marked-alt"></i></div>
+                    <h3>Find Nearby</h3>
+                    <p>NGOs and volunteers browse the map to find available food donations.</p>
+                </div>
+                <div class="p-card">
+                    <span class="step-num">3</span>
+                    <div class="icon-box"><i class="fas fa-bell"></i></div>
+                    <h3>Get Notified</h3>
+                    <p>Receive instant alerts via SMS or WhatsApp when food becomes available.</p>
+                </div>
+                <div class="p-card">
+                    <span class="step-num">4</span>
+                    <div class="icon-box"><i class="fas fa-heart"></i></div>
+                    <h3>Share & Impact</h3>
+                    <p>Pick up the food and distribute it to those in need. Track your impact.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="map-section" class="section-gray">
+        <div class="container">
+            <div class="center-header">
+                <span class="tag">Real-Time Map</span>
+                <h2>Find Food Near You</h2>
+                <p>Explore available food donations in your neighborhood.</p>
+            </div>
+            
+            <div class="map-interface">
+                <div class="map-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search by location, restaurant, or food type...">
+                    <button class="filter-btn"><i class="fas fa-sliders-h"></i> Filters</button>
+                    <button class="btn-primary"><i class="fas fa-location-arrow"></i> Use My Location</button>
+                </div>
+
+                <div class="map-display">
+                    <div class="map-pin pin-1">12</div>
+                    <div class="map-pin pin-2">5</div>
+                    <div class="map-pin pin-3">80</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="listings" class="section-white">
+        <div class="container">
+            <div class="listings-header">
+                <h3>Available Food</h3>
+                <p>Browse through real-time food listings in your area</p>
+            </div>
+
+            <div class="food-grid">
+                {% for item in items %}
+                <div class="food-card">
+                    <div class="card-img" style="background-image: url('{{ item.get_image() }}');">
+                        <span class="servings-badge">{{ item.servings }} servings</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>{{ item.title }}</h4>
+                        <p class="desc">{{ item.description }}</p>
+                        <div class="tags">
+                            <span class="tag-pill">{{ item.food_type }}</span>
+                            {% if item.tags %}<span class="tag-pill">{{ item.tags }}</span>{% endif %}
+                        </div>
+                        <div class="meta">
+                            <span><i class="fas fa-user"></i> {{ item.donor_name }}</span>
+                            <span><i class="fas fa-clock"></i> Expires: {{ item.expiry }}</span>
+                        </div>
+                        
+                        {% if item.status == 'Available' %}
+                            <a href="{{ url_for('reserve', id=item.id) }}" class="btn btn-full">Reserve Now ></a>
+                        {% else %}
+                            <button disabled class="btn btn-disabled">Already Reserved</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="no-items">
+                    <h3>No food listed yet.</h3>
+                    <p>Be the first to share food!</p>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="view-all-container">
+                <button class="btn btn-outline-long">View All Listings ></button>
+            </div>
+        </div>
+    </section>
+
+    <section id="impact" class="section-dark">
+        <div class="container">
+            <div class="center-header">
+                <span class="tag-dark">Our Impact</span>
+                <h2 style="color:white;">Making a Real Difference</h2>
+                <p style="color:#a7f3d0;">Together, we're building a world where no good food goes to waste.</p>
+            </div>
+
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <i class="fas fa-utensils"></i>
+                    <h3>1,25,000+</h3>
+                    <p>Meals Shared</p>
+                    <small>Delicious meals saved from waste</small>
+                </div>
+                <div class="impact-card">
+                    <i class="fas fa-smile"></i>
+                    <h3>45,000+</h3>
+                    <p>People Fed</p>
+                    <small>Community members helped</small>
+                </div>
+                <div class="impact-card">
+                    <i class="fas fa-leaf"></i>
+                    <h3>75 tons</h3>
+                    <p>CO₂ Saved</p>
+                    <small>Environmental impact reduced</small>
+                </div>
+                <div class="impact-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>500+</h3>
+                    <p>Partner Orgs</p>
+                    <small>Restaurants, NGOs & volunteers</small>
+                </div>
+            </div>
+
+            <div class="impact-cta">
+                <p>Join the movement and become part of the solution</p>
+                <div class="cta-btns">
+                    <a href="{{ url_for('donate') }}" class="btn btn-primary">Start Donating</a>
+                    <button class="btn btn-outline-light">Become a Volunteer</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="newsletter">
+                <div class="news-text">
+                    <h3>Stay Updated</h3>
+                    <p>Get notified about new food listings and community updates.</p>
+                </div>
+                <div class="news-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button class="btn btn-primary">Subscribe</button>
+                </div>
+            </div>
+
+            <hr style="border-color: #374151; margin: 40px 0;">
+
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo"><i class="fas fa-leaf"></i> ReFood</div>
+                    <p>Connecting communities to reduce food waste and fight hunger. Every meal shared is a step towards a better world.</p>
+                    <p><i class="fas fa-envelope"></i> hello@refood.com</p>
+                    <p><i class="fas fa-phone"></i> +1(234) 567-890</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Platform</h4>
+                    <a href="#">How it Works</a>
+                    <a href="#">Find Food</a>
+                    <a href="#">Listings</a>
+                    <a href="#">For NGOs</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Our Impact</a>
+                    <a href="#">Press</a>
+                    <a href="#">Careers</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">Food Safety</a>
+                    <a href="#">Community Guidelines</a>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2026 ReFood. All rights reserved. Made with <i class="fas fa-heart"></i> for the community.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
