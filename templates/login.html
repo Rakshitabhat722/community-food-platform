@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>ReFood - Login</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <style>
-        /* Small local style for the form card */
         .login-card {
             background: white;
             padding: 50px 40px;
@@ -21,100 +21,111 @@
         .hidden { display: none; }
     </style>
 </head>
+
 <body style="background-color: #f3f4f6;">
 
-    <div class="login-wrapper">
-        
-        <div id="role-section" class="role-container">
-            <h2 style="text-align: center; margin-bottom: 40px; font-size: 2.5rem; color: var(--dark);">Who are you?</h2>
-            
-            <div class="role-grid">
-                <div class="role-card" onclick="showDonorForm()">
-                    <div class="icon-circle">
-                        <i class="fas fa-hand-holding-heart"></i>
-                    </div>
-                    <h3>I am a Donor</h3>
-                    <p>Restaurant, Hotel, or Individual wishing to share surplus food.</p>
-                    <button class="btn btn-outline-long" style="margin-top: 20px;">Login as Donor</button>
-                </div>
+<div class="login-wrapper">
 
-                <div class="role-card" onclick="goToNgoVerify()">
-                    <div class="icon-circle" style="background: #fff7ed; color: var(--orange);">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3>I am an NGO</h3>
-                    <p>Charity Organization or Shelter looking to collect food.</p>
-                    <button class="btn btn-primary btn-full" style="background: var(--orange); margin-top: 20px;">Login / Verify NGO</button>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="{{ url_for('home') }}" style="color: #666; text-decoration: none; font-weight: 600;">← Back to Home</a>
-            </div>
-        </div>
+    <!-- ROLE SELECTION -->
+    <div id="role-section" class="role-container">
+        <h2 style="text-align:center; margin-bottom:40px; font-size:2.5rem;">
+            Who are you?
+        </h2>
 
-        <div id="donor-form" class="login-card hidden">
-            <div class="login-header">
+        <div class="role-grid">
+
+            <!-- DONOR -->
+            <div class="role-card" onclick="showDonorForm()">
                 <div class="icon-circle">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-hand-holding-heart"></i>
                 </div>
-                <h2 style="font-size: 2rem; margin-bottom: 10px;">Donor Login</h2>
-                <p style="color:#666; margin-bottom: 30px;">Welcome back! Please enter your details.</p>
+                <h3>I am a Donor</h3>
+                <p>Restaurant, Hotel, or Individual wishing to share surplus food.</p>
+                <button class="btn btn-outline-long" style="margin-top:20px;">
+                    Login as Donor
+                </button>
             </div>
 
-            <form onsubmit="handleDonorLogin(event)">
-                <div class="form-group">
-                    <label style="text-align: left; display: block; font-weight: 600; margin-bottom: 8px;">Email Address</label>
-                    <input type="email" class="form-control" placeholder="name@example.com" required>
+            <!-- NGO -->
+            <div class="role-card" onclick="goToNgoLogin()">
+                <div class="icon-circle" style="background:#fff7ed; color:#f97316;">
+                    <i class="fas fa-building"></i>
                 </div>
-                
-                <div class="form-group">
-                    <label style="text-align: left; display: block; font-weight: 600; margin-bottom: 8px;">Password</label>
-                    <input type="password" class="form-control" placeholder="••••••••" required>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
-            </form>
-
-            <div style="margin-top: 20px;">
-                <p style="color:#666;">Don't have an account? <a href="#" style="color:var(--primary); font-weight:700;">Sign up</a></p>
-                <a href="#" onclick="showRoleSelection()" style="display:block; margin-top:15px; color:#666; text-decoration:none;">← Go Back</a>
+                <h3>I am an NGO</h3>
+                <p>Charity Organization or Shelter looking to collect food.</p>
+                <button class="btn btn-primary btn-full" style="background:#f97316; margin-top:20px;">
+                    Login / Signup NGO
+                </button>
             </div>
+
         </div>
 
+        <div style="text-align:center; margin-top:40px;">
+            <a href="{{ url_for('home') }}" style="color:#666; text-decoration:none; font-weight:600;">
+                ← Back to Home
+            </a>
+        </div>
     </div>
 
-    <script>
-        // 1. Show Donor Form
-        function showDonorForm() {
-            document.getElementById('role-section').classList.add('hidden');
-            document.getElementById('donor-form').classList.remove('hidden');
-        }
+    <!-- DONOR LOGIN (DEMO ONLY) -->
+    <div id="donor-form" class="login-card hidden">
 
-        // 2. Go Back to Cards
-        function showRoleSelection() {
-            document.getElementById('donor-form').classList.add('hidden');
-            document.getElementById('role-section').classList.remove('hidden');
-        }
+        <div class="login-header">
+            <div class="icon-circle">
+                <i class="fas fa-user"></i>
+            </div>
+            <h2 style="font-size:2rem;">Donor Login</h2>
+            <p style="color:#666; margin-bottom:30px;">
+                Demo login (no authentication required)
+            </p>
+        </div>
 
-        // 3. Go to NGO Verification (Fixes the Red Mark!)
-        function goToNgoVerify() {
-            window.location.href = "{{ url_for('ngo_verify') }}";
-        }
+        <form onsubmit="handleDonorLogin(event)">
+            <div class="form-group">
+                <label style="display:block; text-align:left;">Email</label>
+                <input type="email" class="form-control" required>
+            </div>
 
-        // 4. Handle Donor Login
-        function handleDonorLogin(event) {
-            event.preventDefault();
-            const btn = document.querySelector('#donor-form button');
-            btn.innerText = "Verifying...";
-            btn.style.opacity = "0.7";
+            <div class="form-group">
+                <label style="display:block; text-align:left;">Password</label>
+                <input type="password" class="form-control" required>
+            </div>
 
-            setTimeout(() => {
-                alert("Login Successful! Welcome back.");
-                window.location.href = "{{ url_for('home') }}";
-            }, 1000);
-        }
-    </script>
+            <button type="submit" class="btn btn-primary btn-full">
+                Sign In
+            </button>
+        </form>
+
+        <div style="margin-top:20px;">
+            <a href="#" onclick="showRoleSelection()" style="color:#666; text-decoration:none;">
+                ← Go Back
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function showDonorForm() {
+        document.getElementById('role-section').classList.add('hidden');
+        document.getElementById('donor-form').classList.remove('hidden');
+    }
+
+    function showRoleSelection() {
+        document.getElementById('donor-form').classList.add('hidden');
+        document.getElementById('role-section').classList.remove('hidden');
+    }
+
+    function goToNgoLogin() {
+        window.location.href = "{{ url_for('login') }}";
+    }
+
+    function handleDonorLogin(e) {
+        e.preventDefault();
+        alert("Login successful (demo)");
+        window.location.href = "{{ url_for('home') }}";
+    }
+</script>
 
 </body>
-</html> 
+</html>
